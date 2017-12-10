@@ -3,7 +3,7 @@ import java.util.Arrays;
 public class Sorts{
 	
 	public static String name(){
-		return "10.Cribb.Vivian";
+		return "10,Cribb,Vivian";
 	}
 	
 	public static void selectionSort(int[]data){
@@ -28,5 +28,25 @@ public class Sorts{
 				}
 			}
 		}
+	}
+	
+	public static void bubbleSort(int[]data){
+		int n = 0;
+		boolean exit = false;
+		while (n < (data.length - 1) && !exit){
+			int swaps = 0;
+			for (int x = 0; x < (data.length - 1 - n); x++){
+				if (data[x] > data[x + 1]){
+					int temp = data[x];
+					data[x] = data[x + 1];
+					data[x + 1] = temp;
+					swaps++;
+				}
+			}
+			if (swaps == 0){
+				exit = true;
+			}
+			n++;
+		}		
 	}
 }
