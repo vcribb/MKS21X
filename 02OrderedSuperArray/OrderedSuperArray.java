@@ -1,125 +1,150 @@
 public class OrderedSuperArray extends SuperArray{
     public OrderedSuperArray(){
-	super(0);
+	super();
     }
-    public OrderedSuperArray(int capacity){
-	super(capacity);
+
+    public OrderedSuperArray(int startingCapacity){
+	super(startingCapacity);
     }
+
     public OrderedSuperArray(String[] ary){
 	super(ary.length);
-	for (int n = 0; n < ary.length; n++){
-	    add(ary[n]);
+	for (int x = 0; x < ary.length; x++){
+	    add(ary[x]);
 	}
     }
+
+    public String set(int index, String element){
+	throw new UnsupportedOperationException();
+    }
+
     public void add(int index, String value){
-		add(value);
+	add(value);
     }
-	public int indexOfBinary(String element){
-		if (this.size()==0){
-			return 0;
+
+    public int indexOfBinary(String element){
+	int high = this.size();
+	int low = 0;
+	int n = 0;
+	if (get(this.size()/2).equals(element)){
+	    for (int x = this.size()/2; x>=0; x--){
+		if (get(x).equals(element)){
+		    n = x;
 		}
-		if (element.equals(this.get(0))){
-			return 0;
-		}
-		int start = 0;
-        int end = this.size() - 1;
-        while (start <= end) {
-            int m = (start+end+1) / 2;
-            if (element.equals(this.get(m))) {
-				if (m!=0){
-					if (!(element.equals(this.get(m-1)))){
-						return m;
-					}
-				}
-            }
-            if (element.compareTo(this.get(m))>0) {
-                start = m + 1;
-				
-            }
-			else {
-                end = m - 1;
-            }
-        }
-        return -1;
+	    }
 	}
-	public int lastIndexOfBinary(String element){
-        if (this.size()==0){
-			return -1;
+	else{
+	    while (low != high){
+		if (this.get(low+((high-low)/2)).equals(element)){
+		    for (int x = low+((high-low)/2); x >= low; x--){
+			if (this.get(x).equals(element)){
+			    n = x;
+			}
+		    }
+		    return n;
 		}
-		if (element.equals(this.get(this.size()-1))){
-			return this.size()-1;
+		if (this.get(low+((high-low)/2)).compareTo(element) < 0){
+		    low = low+((high-low)/2);
 		}
-		int start = 0;
-        int end = this.size() - 1;
-        while (start <= end) {
-            int m = (start+end+1) / 2;
-            if (element.equals(this.get(m))){
-				if (m!=(this.size()-1)){
-					if (!(element.equals(this.get(m+1)))){
-						return m;
-					}
-				}
-            }
-            if (element.compareTo(this.get(m))>0) {
-                start = m + 1;
-            }
-			else {
-                end = m - 1;
-            }
-        }
-        return -1;
+		else{
+		    high = low+((high-low)/2);
+		}
+	    }
 	}
-	private int findIndex(String element){
-		int n = this.size();
-		for (int x = 0; x < this.size(); x++){
-			if (element.compareTo(get(x))<0){
-				if (x < n){
-					n = x;
-				}
-			}
-		}
-		return n;
-	}
-	private int findIndexBinary(String element) {
-        if (this.size()==0){
-			return 0;
-		}
-		if (this.size()==1){
-			if (element.compareTo(this.get(0))<0){
-				return 0;
-			}
-			return 1;
-		}
-		int start = 0;
-        int end = this.size() - 1;
-        while (start <= end) {
-            int m = (start + end + 1) / 2;
-			if (element.compareTo(this.get(m))==0){
-				return m;
-			}
-            if (element.compareTo(this.get(m))>0) {
-                if (m > 0){
-					if (element.compareTo(this.get(m-1))<0){
-						return m;
-					}
-				}
-				if (m==0){
-					return m;
-				}
-				end = m - 1;
-            }
-            else {
-                start = m + 1;
-            }
-        }
-		return 0;
+	return n;
     }
+
+    public int lastIndexOfBinary(String element){
+	int low = 0;
+	int high = this.size();
+	int n = 0;
+	if (get(this.size()/2).equals(element)){
+	    for (int x = this.size()/2; x < this.size(); x++){
+		if (this.get(x).equals(element)){
+		    n = x;
+		}
+	    }
+	}
+	else {
+	    while (low != high){
+		if (this.get(low+((high-low)/2)).compareTo(element) < 0){
+		    low = low+((high-low)/2);
+		}
+		else{
+		    if (this.get(low+((high-low)/2)).equals(element)){
+			for (int x = low+((high-low)/2); x < high; x++){
+			    if (this.get(x).equals(element)){
+				n = x;
+			    }
+			}
+			return n;
+		    }
+		    else {
+			high = low+((high-low)/2);
+		    }
+		}
+	    }
+	}
+	return n;
+    }
+
+    private int findIndexBinary(String value){
+	int index = 0;
+	int low = 0;
+	int high = size();
+	if (get(size()/2).compareTo(value) == 0){
+	    index = size()/2;
+	}
+	else {
+	    if (get(this.size()/2).compareTo(value) < 0){
+		low = this.size()/2;
+		while (low >= 0){
+		    if (high-low > 1){
+			if (this.get(low+(high-low)/2).compareTo(value) < 0){
+			    low = low+((high-low)/2);
+			}
+		    }
+		    else{
+			index = low+1;
+		    }
+		}
+	    }
+	    else {
+		high = this.size()/2;
+		while (high >= 0){
+		    if (high-low > 1){
+			if (this.get(low+(high-low)/2).compareTo(value) < 0){
+			    low = low+((high-low)/2);
+			}
+			else {
+			    index = low+1;
+			}
+		    }
+		}
+	    }
+	}
+	return index;
+    }
+
+    
+    public int findIndex(String value){
+	int index = 0;
+	boolean found = false;
+	for (int x = 0; x < this.size(); x++){
+	    if (this.get(x).compareTo(value) > 0 && found == false){
+		found = true;
+		index = x + 1;
+	    }
+	    else if (this.get(x).compareTo(value) == 0 && found == false){
+		found = true;
+		index = x;
+	    }
+	}
+	return index;
+    }
+
+
     public boolean add(String value){
-	int n = this.size();
-	if (n==0){
-	    super.add(value);
-	    return true;
-	}
 	super.add(findIndex(value), value);
 	return true;
     }
