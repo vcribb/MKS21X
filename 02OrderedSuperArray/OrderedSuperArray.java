@@ -1,6 +1,6 @@
 public class OrderedSuperArray extends SuperArray{
     public OrderedSuperArray(){
-	super();
+	super(0);
     }
     public OrderedSuperArray(int capacity){
 	super(capacity);
